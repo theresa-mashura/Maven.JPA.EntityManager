@@ -1,19 +1,23 @@
 package services;
 
 import entities.Author;
+import entities.Book;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collection;
+import java.util.List;
 
 public class TestAuthorService {
 
     private AuthorService a;
+    private BookService b;
 
     @Before
     public void setup() {
         this.a = new AuthorService();
+        this.b = new BookService();
     }
 
 
@@ -97,5 +101,30 @@ public class TestAuthorService {
 
         // Assert
 
+    }
+
+    @Test
+    public void testGetBooks() {
+        // Arrange
+        Author testAuthor = new Author(null, "TEST", "BOOK TO AUTHOR MAPPING", "none");
+        Long idAuthor = a.createAuthor(testAuthor);
+        Book book1 = new Book(null, "TEST BOOK TO AUTHOR MAPPING1", "J.K. Rowling", "Penguin", "Fantasy", 300, idAuthor);
+        Book book2 = new Book(null, "TEST BOOK TO AUTHOR MAPPING2", "J.K. Rowling", "Penguin", "Fantasy", 300,idAuthor);
+        Long idBook1 = b.createBook(book1);
+        Long idBook2 = b.createBook(book2);
+
+        // Act
+        List<Book> booksWritten = a.getBooks(idAuthor);
+        Assert.assertEquals(2, booksWritten.size());
+        Assert.assertEquals(idBook1, booksWritten.get(0).getId());
+        Assert.assertEquals(idBook2, booksWritten.get(1).getId());
+
+        for (Book bk : booksWritten) {
+            System.out.println(bk.toString());
+        }
+
+        b.deleteBook(idBook1);
+        b.deleteBook(idBook2);
+        a.deleteAuthor(idAuthor);
     }
 }

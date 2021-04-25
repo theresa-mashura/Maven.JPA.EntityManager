@@ -1,6 +1,9 @@
 package entities;
 
+import org.hibernate.annotations.Fetch;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "AUTHOR")
@@ -12,6 +15,9 @@ public class Author {
     private String firstName;
     private String lastName;
     private String pseudonym;
+
+    @OneToMany(mappedBy = "a", fetch = FetchType.EAGER)
+    private List<Book> bks;
 
     public Author() {
     }
@@ -28,6 +34,15 @@ public class Author {
         this.lastName = lastName;
         this.pseudonym = pseudonym;
     }
+
+    public List<Book> getBks() {
+        return bks;
+    }
+
+    public void setBks(List<Book> bks) {
+        this.bks = bks;
+    }
+
 
     public Long getId() {
         return id;

@@ -15,6 +15,11 @@ public class Book {
     private String genre;
     private int pages;
 
+    private Long aId;
+    @ManyToOne
+    @JoinColumn(name = "aId", referencedColumnName = "id", insertable = false, updatable = false)
+    private Author a;
+
     public Book() {
     }
 
@@ -33,6 +38,32 @@ public class Book {
         this.publisher = publisher;
         this.genre = genre;
         this.pages = pages;
+    }
+
+    public Book(Long id, String title, String author, String publisher, String genre, int pages, Long aId) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+        this.genre = genre;
+        this.pages = pages;
+        this.aId = aId;
+    }
+
+    public Long getaId() {
+        return aId;
+    }
+
+    public void setaId(Long aId) {
+        this.aId = aId;
+    }
+
+    public Author getA() {
+        return a;
+    }
+
+    public void setA(Author a) {
+        this.a = a;
     }
 
     public Long getId() {

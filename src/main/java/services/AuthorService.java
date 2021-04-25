@@ -5,12 +5,21 @@ import entities.Book;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 
 public class AuthorService {
 
     EntityManagerFactory emf = Persistence.createEntityManagerFactory("BooksDB");
     EntityManager em = emf.createEntityManager();
+
+    // getAllBooks()
+    public List<Book> getBooks(Long id) {
+        Author author = em.find(Author.class, id);
+        em.detach(author);
+        List<Book> booksWritten = author.getBks();
+        return booksWritten;
+    }
 
     // findById()
     public Author findAuthor(Long id) {
